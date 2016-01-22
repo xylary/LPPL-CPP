@@ -25,7 +25,7 @@ long double err[10000]={0};
 long double E=0;
 long double Aa[10000][2]={0};
 long double Bb[10000][2]={0};
-
+//rdsf 
 int iter=0;
 int itermax=10;
 
