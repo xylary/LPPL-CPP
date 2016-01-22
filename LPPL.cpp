@@ -4,6 +4,7 @@
 #include <cstdlib> /* atoi */
 #include <sstream> /* istringstream class */
 #include <cmath> 
+#include <ctime> 
 using namespace std; 
 #define ROW 200 
 #define COL 2
@@ -25,6 +26,7 @@ long double err[10000]={0};
 long double E=0;
 long double Aa[10000][2]={0};
 long double Bb[10000][2]={0};
+int test[42]= {1,0,1,0,0,0,1,1,0,1,1,0,1,0,0,1,0,0,0,0,0,0,0,0,0,1,0,0,0,1,1,1,0,1,0,1,0,0,0,0,0,0};
 //rdsf 
 int iter=0;
 int itermax=10;
@@ -34,8 +36,8 @@ int pall[10000][pallnum];
 int psurvive[100][42];
 
 void read();
-void fitLPPL();
-void LPPL();
+int fitLPPL();
+void LPPL(long double A,long double B,long double C,long double tc,long double beta,long double w,long double phi);
 
 void read(){
 	ifstream fin(filename); 
@@ -67,7 +69,7 @@ void read(){
 	} 
 }
 
-void fitLPPL(){
+int fitLPPL(){
 	
 	for(int i=0;i<199;i++){
 		M[i][0]=1;
@@ -92,33 +94,129 @@ void fitLPPL(){
 	C=0.0014;
 	C=C/B;
 	
-	LPPL();
-	
+	for(int i=0;i<199;i++){
+		LPPL(A,B,C,tc[i],b[i],w[i],phi[i]);
+	}//receive "out"
+	for(int i=0;i<199;i++){
+		out[i]=abs(out[i]-N[i]);
+	}
+	int tmp;
+	for(int i=0;i<199;i++){
+		tmp+=out[i];
+	}
+	E=tmp/199;
+	return E;
 }
 
-void LPPL(){
-	for(int i=0;i<10000;i++){
-		out[i]=A+B*(pow(tc[i],b[i]))*(1+C*cos(w[i]*log(tc[i])+phi[i]));//tc-[1:tc-1]
-		err[i]=abs(out[i]-N[i])/i;
+void LPPL(long double A,long double B,long double C,long double tc,long double beta,long double w,long double phi){
+	for(int i=1;i<tc-1;i++){
+		out[i] = A+B*(pow(tc-i,beta))*(1+C*cos(w*log(tc-i)+phi));
 	}
-	
 }
 
 int main(){ 
+	/*
+	 1
+     0
+     1
+     0
+     0
+     0
+     1
+     1
+     0
+     1
+     1
+     0
+     1
+     0
+     0
+     1
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     1
+     0
+     0
+     0
+     1
+     1
+     1
+     0
+     1
+     0
+     1
+     0
+     0
+     0
+     0
+     0
+     0
 
+   397
+
+    1.5100
+
+    0.8829
+
+    0.0674
+	*/
+	int i=0;
+	float tmp=0;
+	for(int j=0;j<42;j++){
+		
+		cout<<test[j];
+	}
+	cout<<"**************"<<endl;
+	for(int j=0;j<8;j++){
+		
+		tmp+=test[j]*(pow(2,j));
+	}
+	tc[i]=200+tmp;
+	cout<<tc[i]<<endl;
+	//OK
+	tmp=0;
+	for(int j=8;j<22;j++){
+		tmp+=test[j]*(pow(2,j-8));
+	}
+	w[i]=0.01+0.01*tmp;
+	cout<<w[0]<<endl;
+	//OK
+	tmp=0;
+	for(int j=22;j<32;j++){
+		tmp+=test[j]*pow(2,j-22);
+	}	
+	b[i]=(tmp+1)/1025;
+	cout<<b[0]<<endl;
+	//OK
+	tmp=0;
+	for(int j=32;j<42;j++){
+		tmp+=test[j]*pow(2,j-32);
+	}
+	phi[i]=(tmp+1)/1025*PI*2;
+	cout<<phi[i]<<endl;
+	//OK
+	
+	//Aa[i][1]=fitLPPL();	
+	/*
+	srand(time(0));
 	read();
 	
 	for(int i=0;i<10000;i++){
 		for(int j=0;j<42;j++){
-			pall[i][j]=rand() % 2;//why always 1100100
-			if(i<10&&j<3)
-				cout<<pall[i][j]<<endl;//test
+			pall[i][j]=rand()%2;
 		}
 	}
-	 
-	
+	*/
+	/*
 	while(iter<itermax){
-		for(int i=0;i<10;i++){//i<10000 
+		for(int i=0;i<100;i++){//i<10000 
 			int tmp=0;
 			for(int j=0;j<8;j++){
 				
@@ -140,18 +238,19 @@ int main(){
 			
 			for(int j=32;j<42;j++){
 				int tmp;
-				tmp+=pall[j][0]*pow(2,j-32);
+				tmp+=pall[i][j]*pow(2,j-32);
 			}
 			phi[i]=(tmp+1)/1025*PI*2;
 			
-			fitLPPL();	
-		}
+			Aa[i][1]=fitLPPL();	
+	 }
 		
 		for(int i=0;i<10000;i++){
 			Aa[i][0]=i;
-			Aa[i][1]=err[i];
+			err[i];
 		}
-		
+		*/
+		/*
 		long double k;
 		for(int i=0;i<10000-1;i++){ //******
 			if(Aa[i][1] > Aa[i+1][1]){ 
@@ -202,10 +301,6 @@ int main(){
 		
 		iter++;
 	}
-	
-	for(int i=0;i<10000;i++){
-		//------- 
-	}
-	
+	*/
  	return 0;
 } 
