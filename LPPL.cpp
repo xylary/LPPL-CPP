@@ -111,7 +111,8 @@ int main(){
 	for(int i=0;i<10000;i++){
 		for(int j=0;j<42;j++){
 			pall[i][j]=rand() % 2;//why always 1100100
-			//cout<<pall[i]<<endl;//test
+			if(i<10&&j<3)
+				cout<<pall[i][j]<<endl;//test
 		}
 	}
 	 
