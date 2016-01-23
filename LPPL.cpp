@@ -30,6 +30,7 @@ int test[42]= {1,0,1,0,0,0,1,1,0,1,1,0,1,0,0,1,0,0,0,0,0,0,0,0,0,1,0,0,0,1,1,1,0
 //rdsf 
 int iter=0;
 int itermax=10;
+float tmp;
 
 const int pallnum=42;
 int pall[10000][pallnum];
@@ -87,7 +88,6 @@ int fitLPPL(){
 		N[i]=log(arr[i][1]);
 	}
 	
-	
 	//Regress(N,M)
 	A=4.3;
 	B=-2.36;
@@ -115,96 +115,9 @@ void LPPL(long double A,long double B,long double C,long double tc,long double b
 }
 
 int main(){ 
-	/*
-	 1
-     0
-     1
-     0
-     0
-     0
-     1
-     1
-     0
-     1
-     1
-     0
-     1
-     0
-     0
-     1
-     0
-     0
-     0
-     0
-     0
-     0
-     0
-     0
-     0
-     1
-     0
-     0
-     0
-     1
-     1
-     1
-     0
-     1
-     0
-     1
-     0
-     0
-     0
-     0
-     0
-     0
-
-   397
-
-    1.5100
-
-    0.8829
-
-    0.0674
-	*/
-	int i=0;
-	float tmp=0;
-	for(int j=0;j<42;j++){
-		
-		cout<<test[j];
-	}
-	cout<<"**************"<<endl;
-	for(int j=0;j<8;j++){
-		
-		tmp+=test[j]*(pow(2,j));
-	}
-	tc[i]=200+tmp;
-	cout<<tc[i]<<endl;
-	//OK
-	tmp=0;
-	for(int j=8;j<22;j++){
-		tmp+=test[j]*(pow(2,j-8));
-	}
-	w[i]=0.01+0.01*tmp;
-	cout<<w[0]<<endl;
-	//OK
-	tmp=0;
-	for(int j=22;j<32;j++){
-		tmp+=test[j]*pow(2,j-22);
-	}	
-	b[i]=(tmp+1)/1025;
-	cout<<b[0]<<endl;
-	//OK
-	tmp=0;
-	for(int j=32;j<42;j++){
-		tmp+=test[j]*pow(2,j-32);
-	}
-	phi[i]=(tmp+1)/1025*PI*2;
-	cout<<phi[i]<<endl;
-	//OK
 	
-	//Aa[i][1]=fitLPPL();	
-	/*
+	int i=0;
+
 	srand(time(0));
 	read();
 	
@@ -213,44 +126,56 @@ int main(){
 			pall[i][j]=rand()%2;
 		}
 	}
-	*/
-	/*
+	
+	
 	while(iter<itermax){
-		for(int i=0;i<100;i++){//i<10000 
-			int tmp=0;
+		
+		for(int i=0;i<1000;i++){//i<10000 modify to improve debug performance 
+			
+			for(int j=0;j<42;j++){//display gene for testing(completed)
+				//cout<<pall[i][j]<<endl;
+			}
+			
+			tmp=0;
 			for(int j=0;j<8;j++){
 				
 				tmp+=pall[i][j]*(pow(2,j));
 			}
 			tc[i]=200+tmp;
-			
+			//cout<<tc[i]<<endl;
+			//OK
+			tmp=0;
 			for(int j=8;j<22;j++){
-				int tmp;
 				tmp+=pall[i][j]*(pow(2,j-8));
 			}
 			w[i]=0.01+0.01*tmp;
-	
+			//cout<<w[i]<<endl;
+			//OK
+			tmp=0;
 			for(int j=22;j<32;j++){
-				int tmp;
 				tmp+=pall[i][j]*pow(2,j-22);
 			}	
 			b[i]=(tmp+1)/1025;
-			
+			//cout<<b[i]<<endl;
+			//OK
+			tmp=0;
 			for(int j=32;j<42;j++){
-				int tmp;
 				tmp+=pall[i][j]*pow(2,j-32);
 			}
 			phi[i]=(tmp+1)/1025*PI*2;
-			
-			Aa[i][1]=fitLPPL();	
-	 }
+			//cout<<phi[i]<<endl;
+			//OK
+					
+			Aa[i][1]=fitLPPL();
+			cout<<Aa[i][1]<<endl<<i<<endl<<b[i]<<endl<<phi[i]<<endl<<out[i]<<endl;	
+		}
 		
+		/*
 		for(int i=0;i<10000;i++){
 			Aa[i][0]=i;
 			err[i];
 		}
-		*/
-		/*
+		
 		long double k;
 		for(int i=0;i<10000-1;i++){ //******
 			if(Aa[i][1] > Aa[i+1][1]){ 
@@ -302,5 +227,59 @@ int main(){
 		iter++;
 	}
 	*/
- 	return 0;
+ 	return 0;//run only one iteration for debug
+	}
 } 
+/*
+test for gene
+	 1
+     0
+     1
+     0
+     0
+     0
+     1
+     1
+     0
+     1
+     1
+     0
+     1
+     0
+     0
+     1
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     1
+     0
+     0
+     0
+     1
+     1
+     1
+     0
+     1
+     0
+     1
+     0
+     0
+     0
+     0
+     0
+     0
+
+   397
+
+    1.5100
+
+    0.8829
+
+    0.0674
+	*/
