@@ -39,6 +39,7 @@ int psurvive[100][42];
 void read();
 int fitLPPL();
 void LPPL(long double A,long double B,long double C,long double tc,long double beta,long double w,long double phi);
+void BubbleSort(long double* array, int size);
 
 void read(){
 	ifstream fin(filename); 
@@ -132,10 +133,6 @@ int main(){
 		
 		for(int i=0;i<1000;i++){//i<10000 modify to improve debug performance 
 			
-			for(int j=0;j<42;j++){//display gene for testing(completed)
-				//cout<<pall[i][j]<<endl;
-			}
-			
 			tmp=0;
 			for(int j=0;j<8;j++){
 				
@@ -167,33 +164,25 @@ int main(){
 			//OK
 					
 			Aa[i][1]=fitLPPL();
-			cout<<Aa[i][1]<<endl<<i<<endl<<b[i]<<endl<<phi[i]<<endl<<out[i]<<endl;	
+			//cout<<Aa[i][1]<<endl<<i<<endl<<b[i]<<endl<<phi[i]<<endl<<out[i]<<endl;//測試數據	
 		}
 		
-		/*
+		//--------20160124 10:14 start modify------ 
 		for(int i=0;i<10000;i++){
 			Aa[i][0]=i;
-			err[i];
 		}
 		
+		/*在此完成排序法
 		long double k;
-		for(int i=0;i<10000-1;i++){ //******
-			if(Aa[i][1] > Aa[i+1][1]){ 
-				k=Aa[i][1]; 
-				Aa[i][1]=Aa[i-1][1]; 
-				Aa[i-1][1]=k; 
-			}
-		}
-				
-		for(int i=0;i<10000;i++){
-			//cout<<Aa[0][i]<<endl;
-		}
+		BubbleSort(Aa,10000) 
+		*/
 		
+		/*		
 		cout<<iter<<" "<<Aa[0][1]<<endl;
 		
 		for(int i=0;i<100;i++){
 			for(int j=0;j<42;j++){
-				psurvive[i][j]=pall[i][j];//???? 
+				psurvive[i][j]=pall[i][j];//Bb陣列的前100個-此行尚未完成 
 			}
 		}
 		
